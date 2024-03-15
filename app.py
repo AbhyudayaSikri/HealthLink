@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import datetime
+import requests
 
 clinics = {"sanomed":
             {
@@ -178,6 +179,44 @@ def booking_confirmation():
                            date=date,
                            time=time)
 
+# GOOGLE_PLACES_API_KEY = "YOUR_GOOGLE_PLACES_API_KEY"
+# MAX_HOSPITALS = 10
+# def get_hospitals(location="University of Toronto"):
+#     url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
+#     params = {
+#         "query": f"hospitals near {location}",
+#         "key": GOOGLE_PLACES_API_KEY
+#     }
+#     response = requests.get(url, params=params)
+#     data = response.json()
+#     hospitals = {}
+#     count = 0
+#     if 'results' in data:
+#         for i, result in enumerate(data['results'], start=1):
+#             if count >= MAX_HOSPITALS:
+#                 break
+#             hospital = {}
+#             hospital['name'] = result['name']
+#             hospital['location'] = result['formatted_address']
+#             hospital['rating'] = result.get('rating', 'N/A')
+#             hospital['phone'] = result.get('formatted_phone_number', 'N/A')
+#             hospital['website'] = result.get('website', 'N/A')
+#             hospital['picture'] = result['icon']
+#             hospitals[f'hospital_{i}'] = hospital
+#             count += 1
+#             print(f"Name: {hospital['name']}")
+#             print(f"Location: {hospital['location']}")
+#             print(f"Rating: {hospital['rating']}")
+#             print(f"Phone: {hospital['phone']}")
+#             print(f"Website: {hospital['website']}")
+#             print(f"Picture: {hospital['picture']}")
+#             print("=" * 20)  # Separator
+#     return hospitals
+
+# @app.route('/ab')
+# def scraping():
+#     hospitals = get_hospitals()
+#     return hospitals
 
 if __name__ == '__main__':
     app.run(debug=True)
