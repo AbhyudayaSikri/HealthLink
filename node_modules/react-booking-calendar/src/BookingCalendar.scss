@@ -1,0 +1,242 @@
+$color-primary: #2196f3;
+$color-secondary: lighten($color-primary, 20%);
+$color-booked: darken($color-primary, 20%);
+$border: solid 1px lighten($color-secondary, 20%);
+$skew-amount: -18deg;
+$spacing: 10px;
+
+$screen-xs-min: 600px;
+$screen-sm-min: 768px;
+$screen-md-min: 992px;
+$screen-lg-min: 1200px;
+
+@mixin border-box() {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+@mixin skewX($deg) {
+  -ms-transform: skewX($deg);
+  -webkit-transform: skewX($deg);
+  transform: skewX($deg);
+}
+
+@mixin xy-center() {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.booking-calendar {
+  @include border-box();
+  background: #fff;
+  display: block;
+  float: left;
+  font-size: 14px;
+  margin-bottom: 10px;
+  width: 100%;
+
+  .header {
+    @include border-box();
+    background: $color-primary;
+    border: $border;
+    color: #fff;
+    height: 3em;
+    position: relative;
+
+    .header-content {
+      .icon-previous,
+      .icon-next,
+      .month-label {
+        background: none;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        font-size: 1.125em;
+        font-weight: bold;
+        position: absolute;
+        text-transform: uppercase;
+        top: 50%;
+        transform: translateY(-50%);
+
+        &:disabled {
+          color: $color-secondary;
+        }
+      }
+
+      .icon-previous {
+        left: 0;
+      }
+
+      .icon-next {
+        right: 0;
+      }
+
+      .month-label {
+        left: 0;
+        right: 0;
+        text-align: center;
+      }
+    }
+  }
+
+  .week {
+    @include border-box();
+    background-color: $color-primary;
+    border-right: $border;
+    border-top: $border;
+    float: left;
+    width: 100%;
+
+    &:last-child {
+      border-bottom: $border;
+    }
+
+    &.names {
+      border-top: none;
+
+      .day-box {
+        &:before {
+          padding-top: 50%;
+        }
+
+        .day {
+          color: $color-secondary;
+          font-size: 0.9em;
+        }
+      }
+    }
+
+    .day-box {
+      @include border-box();
+      float: left;
+      position: relative;
+      width: (100% / 7);
+
+      &:before {
+        border-right: $border;
+        content: '';
+        display: block;
+        padding-top: 100%;
+      }
+
+      &:first-child {
+        .day {
+          border-left: $border;
+        }
+      }
+
+      &:last-child {
+        .day {
+          border-right: none;
+        }
+      }
+
+      .day {
+        @include border-box();
+        background: $color-primary;
+        border-right: $border;
+        bottom: 0;
+        color: #fff;
+        cursor: pointer;
+        font-size: 1em;
+        left: 0;
+        position: absolute;
+        right: 0;
+        text-align: center;
+        top: 0;
+
+        &.not-clickable {
+          cursor: default;
+        }
+
+        &.different-month {
+          color: $color-secondary;
+        }
+
+        &.selected {
+          background: #fff;
+          color: $color-primary;
+
+          &:before,
+          &:after {
+            content: none;
+          }
+        }
+
+        &.today {
+          background: $color-secondary;
+          color: #fff;
+        }
+
+        @mixin booking() {
+          overflow: hidden;
+          z-index: 1;
+        }
+
+        @mixin bookingPseudo($left) {
+          @include skewX($skew-amount);
+          background-color: $color-booked;
+          content: '';
+          height: 100%;
+          left: $left;
+          position: absolute;
+          top: 0;
+          width: 100%;
+          z-index: -1;
+        }
+
+        &.booked-day {
+          @include booking();
+
+          &:before {
+            @include bookingPseudo(18%);
+          }
+        }
+
+        &.booked-night {
+          @include booking();
+
+          &:after {
+            @include bookingPseudo(-80%);
+          }
+        }
+
+        > .day-content {
+          @include xy-center();
+        }
+      }
+    }
+
+    &.names > span {
+      color: $color-secondary;
+      font-weight: bold;
+    }
+  }
+}
+
+@media (min-width: $screen-xs-min) {
+  .booking-calendar {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: $screen-sm-min) {
+  .booking-calendar {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: $screen-md-min) {
+  .booking-calendar {
+    font-size: 24px;
+  }
+}
+
+@media (min-width: $screen-lg-min) {
+  .booking-calendar {
+    font-size: 28px;
+  }
+}
