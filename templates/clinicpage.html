@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ clinic['name'] }} Booking</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif; /* Use Roboto font for the body */
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+        .booking-form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: blue;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Book an Appointment at {{ clinic['name'] }}</h1>
+    <div class="booking-form">
+        <form action="/booking_confirmation" method="POST" id="booking-form">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" min="{{ today }}" required>
+        
+            <label for="time">Time:</label>
+            <select id="time" name="time" required>
+                <option value="" disabled selected>Select a time</option>
+            </select>
+        
+            <input type="hidden" name="clinic" value="{{ clinic['name'] }}">
+            <input type="submit" value="Book Appointment">
+        </form>        
+    </div>
+
+    <script>
+        var availableTimes = JSON.parse('{{ clinic["available_slots"] | tojson | safe }}');
+        document.getElementById('date').addEventListener('change', function() {
+            var selectedDate = this.value;
+            var timesDropdown = document.getElementById('time');
+            timesDropdown.innerHTML = ''; 
+            if (availableTimes[selectedDate]) {
+                availableTimes[selectedDate].forEach(function(time) {
+                    var option = document.createElement('option');
+                    option.value = time;
+                    option.textContent = time;
+                    timesDropdown.appendChild(option);
+                });
+            } else {
+                var option = document.createElement('option');
+                option.textContent = 'No available times';
+                timesDropdown.appendChild(option);
+            }
+        });
+    </script>
+    
+</body>
+</html>
