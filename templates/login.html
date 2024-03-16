@@ -4,21 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+    body {
+        background-color: #2955ad;
+    }
+    .login-card {
+        width: 300px;
+        margin: 100px auto;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+        font-family: 'Open Sans', sans-serif;
+    }
+    
+    .login-card h2 {
+        text-align: center;
+    }
+    
+    .login-card form {
+        margin-top: 20px;
+    }
+    
+    .login-card label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    
+    .login-card input[type="text"],
+    .login-card input[type="password"] {
+        width: 93%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .login-card input[type="submit"] {
+        width: 100%;
+        background-color: #007bff;
+        border-radius: 5px;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        padding: 10px;
+    }
+    
+    .login-card input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    .header {
+            background-color: #2955ad; /* White background for header */
+            padding: 10px 0; /* Add some padding */
+            position: relative;
+            margin-left: 10px;
+        }
+</style>    
 </head>
 <body>
-    <h2>Login</h2>
-    {% if error %}
-    <p style="color: red;">{{ error }}</p>
-    {% endif %}
-    <form action="/login" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br>
-
-        <input type="submit" value="Login">
-    </form>
-    <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+    <div class="header">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" height="70"> 
+    </div>
+    <div class="login-card">
+        <h2>Login</h2>
+        {% if error %}
+        <p style="color: red;">{{ error }}</p>
+        {% endif %}
+        <form action="/login" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br><br>
+            <input type="submit" value="Login">
+        </form>
+        <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+    </div>
 </body>
 </html>

@@ -13,12 +13,13 @@
             padding: 0;
             background-color: #2955ad;
             color: #ffffff;
+            justify-content: center;
         }
         .header {
-            background-color: #fff; /* White background for header */
-            border-bottom: 1px solid #ccc; /* Add border to the bottom */
+            background-color: #2955ad; /* White background for header */
             padding: 10px 0; /* Add some padding */
-            text-align: center; /* Center the content */
+            position: relative;
+            margin-left: 10px;
         }
         .clinic-card {
             border: none;
@@ -47,7 +48,7 @@
             height: 150px; /* Fixed height for images */
             object-fit: cover; /* Ensure images maintain aspect ratio and cover the entire space */
             border-radius: 5px; 
-            display: inline-block;
+            /* display: inline-block; */
         } 
 
         .clinic-card p {
@@ -70,9 +71,10 @@
             color: rgb(233, 10, 10);
         }
         .logout-link {
-            position: absolute;
             top: 10px;
             right: 10px;
+            float: right;
+            margin-right:10px;
         }
         .date-selector {
             margin: 20px auto;
@@ -110,6 +112,7 @@
             margin-bottom: 50px;
             height: 500px; /* Set the fixed height for the list container */
             overflow-y: auto; /* Enable vertical scrollbar */
+            justify-content: center;
         }
 
         .appointment-item {
@@ -162,11 +165,13 @@
             color: #fff;
         }
         .map-container {
-            margin-top: 100px;
-            width: 600px;
-            height: 400px; /* Adjust the height as necessary */
+            margin-top: 30px;
+            width: 650px;
+            height: 600px; /* Adjust the height as necessary */
             background-color: #e6e6e6; /* Placeholder color */
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            margin-left: 20px;
+            border-radius: 5px;
         }
         .footer {
             background-color: #fff; /* White background for footer */
@@ -174,13 +179,15 @@
             text-align: center; /* Center the content */
             border-top: 1px solid #ccc; /* Add border to the top */
         }
+
         .two-column-container {
-        display: flex;
+            display: flex;
+            justify-content: center;
         }
 
         .left-column,
         .right-column {
-        flex: 1; /* This will make both columns equal width */
+         /* This will make both columns equal width */
         padding: 0px; /* Add some padding inside the columns */
         }
 
@@ -206,14 +213,72 @@
         .view-all-button:hover {
             background-color: #0056b3;
         }
+        .logout-button {
+            padding: 10px 20px;
+            background-color: #ffffff;
+            color: #2955ad;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin-right: 20px;
+            margin-top: 15px;
+            float: right;
+        }
+        .search-form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
 
+        .search-form input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px; /* Rounded corners on the left side */
+            margin-right: -1px; /* Align the border with the button */
+        }
+
+        .search-form input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 0 5px 5px 0; /* Rounded corners on the right side */
+        }
+
+        .search-form input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .results {
+            list-style-type: none;
+            padding: 0;
+            margin-left: 25px;
+            margin-bottom: 10px;
+        }
+
+        .results li {
+            margin-bottom: 2px;
+            border-radius: 5px;
+        }
+
+        .results h2 {
+            color: #007bff;
+            margin-top: 0;
+            margin-left: 15px;
+        }
+
+        h2 {
+            margin-left: 25px;
+        }
     </style>
 </head>
 <body>
-    <!-- <div class="header"> -->
-        <!-- Add your logo here -->
-        <!-- <img src="C:\Users\nivee\Downloads\image-ZU9gtWUI_-transformed.png" alt="Logo" height="50"> Adjust size as needed -->
-    <!-- </div> -->
+    <div class="header">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" height="70"> 
+        <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
+    </div>
     <h1 style="text-align: center; padding-top: 20px;">Available Clinics</h1>
     <div class="two-column-container">
         <div class="left-column">
@@ -227,13 +292,13 @@
                     </div>
                 {% endfor %}
             </div>
-            <div style="text-align: center; margin-top: 20px;">
+            <!-- <div style="text-align: center; margin-top: 20px;">
                 <a href="/all_clinics" class="view-all-button">View All</a>
-            </div>
+            </div> -->
         </div>
         <div class="right-column">
             <div class="map-container">
-                <iframe id="map" src="healthlink/templates/map.html" style="width: 100%; height: auto;"></iframe>
+                <iframe id="map" src="{{ url_for('static', filename='map.html') }}" style="width: 100%; height: 100%;"></iframe>
             </div>
         </div>
 
@@ -268,6 +333,21 @@
             </li>
         {% endfor %}
     </ul>
-    <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+    <form action="{{ url_for('home') }}" method="post" class="search-form">
+        <input type="text" name="search_word" placeholder="Search in reviews..." required>
+        <input type="submit" value="Search">
+    </form>
+    
+    {% if search_word %}
+    <h2>Search Results for "{{ search_word }}" </h2>
+    <ul class="results">
+        {% for clinic_name in matching_clinics %}
+            <li>{{ clinic_name }}</li>
+        {% else %}
+            <li>No clinics found with that word in their reviews.</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    
 </body>
 </html>

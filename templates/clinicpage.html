@@ -12,7 +12,12 @@
             padding: 0;
             font-family: 'Open Sans', sans-serif;
         }
-
+        .header {
+            background-color: #2955ad; /* White background for header */
+            padding: 10px 0; /* Add some padding */
+            position: relative;
+            margin-left: 10px;
+        }
         body {
             background-color: #2955ad;
             color: #fefefe;
@@ -103,17 +108,21 @@
     </style>
 </head>
 <body>
+    <div class="header">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" height="70"> 
+    </div>
     <div class="container">
         <div class="header">
-            <h1>HeartHealth Medical</h1>
-            <p>360 College St Unit 103, Toronto, ON M5T 1S6</p>
+            <h1>{{clinic['name']}}</h1>
+            <p>{{clinic['address']}}</p>
         </div>
         <div class="reviews card">
             <h2>Reviews</h2>
             <ul>
+                {% for review in clinic['reviews'] %}
                 <!-- Replace with dynamic server-side code -->
-                <li>Worst clinic ever!!!</li>
-                <li>Nivedha is doing this herself</li>
+                <li>{{review}}</li>
+                {% endfor %}
             </ul>
         </div>
         <div class="booking card">
@@ -128,12 +137,12 @@
                     <!-- Options will be populated here -->
                 </select>
             
-                <input type="hidden" name="clinic" value="HeartHealth Medical">
+                <input type="hidden" name="clinic" value="{{clinic['name']}}">
                 <button type="submit" class="submit-btn">Book Appointment</button>
             </form>        
         </div>
         <div class="footer">
-            <p>&copy; 2024 HeartHealth Medical</p>
+            <p>&copy; 2024 {{clinic['name']}}</p>
         </div>
     </div>
 

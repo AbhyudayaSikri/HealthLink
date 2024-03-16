@@ -41,9 +41,18 @@
         .btn:hover {
             background-color: #23262c;
         }
+        .header {
+            background-color: #2955ad; /* White background for header */
+            padding: 10px 0; /* Add some padding */
+            position: relative;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
+    <div class="header">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" height="70"> 
+    </div>
     <div class="confirmation-container">
         <h1>Booking Confirmation</h1>
         <p><strong>Name:</strong> {{ name }}</p>

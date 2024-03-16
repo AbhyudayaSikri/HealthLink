@@ -3,25 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Create an Account</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+        background-color: #2955ad;
+        }
+
+        .register-card {
+        width: 300px;
+        margin: 100px auto;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+        font-family: 'Open Sans', sans-serif;
+        }
+
+        .register-card h2 {
+            text-align: center;
+        }
+
+        .register-card form {
+            margin-top: 20px;
+        }
+
+        .register-card label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .register-card input[type="text"],
+        .register-card input[type="password"],
+        .register-card input[type="tel"] {
+            width: 93%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .register-card input[type="submit"] {
+            width: 95%;
+            background-color: #007bff;
+            border-radius: 5px;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            padding: 10px;
+            margin-top: 15px;
+        }
+
+        .register-card input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .header {
+            background-color: #2955ad; /* White background for header */
+            padding: 10px 0; /* Add some padding */
+            position: relative;
+            margin-left: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h2>Create an Account</h2>
-    {% if error %}
-    <p style="color: red;">{{ error }}</p>
-    {% endif %}
-    <form method="POST" action="{{ url_for('register') }}">
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username" required><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br>
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name" required><br>
-        <label for="phone_number">Phone Number:</label><br>
-        <input type="tel" id="phone_number" name="phone_number" required><br>
-        <input type="submit" value="Register">
-    </form>
-    
-    <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+    <div class="header">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" height="70"> 
+    </div>
+    <div class="register-card">
+        <h2>Create an Account</h2>
+        {% if error %}
+        <p style="color: red;">{{ error }}</p>
+        {% endif %}
+        <form method="POST" action="{{ url_for('register') }}">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br>
+            <label for="phone_number">Phone Number:</label>
+            <input type="tel" id="phone_number" name="phone_number" required><br>
+            <input type="submit" value="Register">
+        </form>
+        
+        <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+    </div>
 </body>
 </html>

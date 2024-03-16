@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_7700f5a5cec3f411974420109d7b5630 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_7700f5a5cec3f411974420109d7b5630" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_7700f5a5cec3f411974420109d7b5630 = L.map(
+                "map_7700f5a5cec3f411974420109d7b5630",
+                {
+                    center: [43.6532, -79.3832],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 14,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_f814bf1a51f89e1355f674d699a19203 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detectRetina": false, "maxNativeZoom": 19, "maxZoom": 19, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );
+        
+    
+            tile_layer_f814bf1a51f89e1355f674d699a19203.addTo(map_7700f5a5cec3f411974420109d7b5630);
+        
+    
+            var marker_0af628b8541a306eb4f13c40a0592f2a = L.marker(
+                [43.665269, -79.387529],
+                {}
+            ).addTo(map_7700f5a5cec3f411974420109d7b5630);
+        
+    
+        var popup_4ce18093f50fba41b8a6790da554a1c3 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_c5cfd4bb94e0c2223891011b19f687b9 = $(`<div id="html_c5cfd4bb94e0c2223891011b19f687b9" style="width: 100.0%; height: 100.0%;"><a href='http://127.0.0.1:5000/sanomed/booking' target='_blank'> Sanomed Medical Clinic </a></div>`)[0];
+                popup_4ce18093f50fba41b8a6790da554a1c3.setContent(html_c5cfd4bb94e0c2223891011b19f687b9);
+            
+        
+
+        marker_0af628b8541a306eb4f13c40a0592f2a.bindPopup(popup_4ce18093f50fba41b8a6790da554a1c3)
+        ;
+
+        
+    
+    
+            var marker_9af4306ea87a77aec7f0ece9c718763b = L.marker(
+                [43.6580818742268, -79.40446914492092],
+                {}
+            ).addTo(map_7700f5a5cec3f411974420109d7b5630);
+        
+    
+        var popup_0a94c1f67b821ba6f72ccc64ed404b03 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_6e661593e03a76b1865845acdf68aeec = $(`<div id="html_6e661593e03a76b1865845acdf68aeec" style="width: 100.0%; height: 100.0%;"><a href='http://127.0.0.1:5000/hearthealth/booking' target='_blank'> HeartHealth Medical </a></div>`)[0];
+                popup_0a94c1f67b821ba6f72ccc64ed404b03.setContent(html_6e661593e03a76b1865845acdf68aeec);
+            
+        
+
+        marker_9af4306ea87a77aec7f0ece9c718763b.bindPopup(popup_0a94c1f67b821ba6f72ccc64ed404b03)
+        ;
+
+        
+    
+    
+            var marker_caef79eb84aac5da3d68585ba1784d41 = L.marker(
+                [43.66069937508352, -79.3861229769542],
+                {}
+            ).addTo(map_7700f5a5cec3f411974420109d7b5630);
+        
+    
+        var popup_5c10b39911c507c5fd72282cefa16b2f = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_20131a137071e4d95e1a705efbc28267 = $(`<div id="html_20131a137071e4d95e1a705efbc28267" style="width: 100.0%; height: 100.0%;"><a href='http://127.0.0.1:5000/familywalkin/booking' target='_blank'> Family Doctors & Walk-In Clinic </a></div>`)[0];
+                popup_5c10b39911c507c5fd72282cefa16b2f.setContent(html_20131a137071e4d95e1a705efbc28267);
+            
+        
+
+        marker_caef79eb84aac5da3d68585ba1784d41.bindPopup(popup_5c10b39911c507c5fd72282cefa16b2f)
+        ;
+
+        
+    
+    
+            var marker_b6548a82ccc9627007ff4bbc1d007e8f = L.marker(
+                [43.65588280429575, -79.38671963277586],
+                {}
+            ).addTo(map_7700f5a5cec3f411974420109d7b5630);
+        
+    
+        var popup_4d80e5a303263730e8d772aef030b4f8 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_38e9fd63d150457911d1ff47fce5dc63 = $(`<div id="html_38e9fd63d150457911d1ff47fce5dc63" style="width: 100.0%; height: 100.0%;"><a href='http://127.0.0.1:5000/familymedicine/booking' target='_blank'> Family Medicine Clinic </a></div>`)[0];
+                popup_4d80e5a303263730e8d772aef030b4f8.setContent(html_38e9fd63d150457911d1ff47fce5dc63);
+            
+        
+
+        marker_b6548a82ccc9627007ff4bbc1d007e8f.bindPopup(popup_4d80e5a303263730e8d772aef030b4f8)
+        ;
+
+        
+    
+</script>
+</html>

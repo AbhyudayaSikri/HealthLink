@@ -2,132 +2,22 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import datetime
 import requests
 import folium 
+from data import clinics
+from twilio.rest import Client
 
-my_map = folium.Map(location=[45.5236, -122.6750], zoom_start=13)
-my_map.save('healthlink/templates/map.html')
+my_map = folium.Map(location=[43.6532, -79.3832], zoom_start=14)
+sanomed_popup = "<a href='http://127.0.0.1:5000/sanomed/booking' target='_blank'> Sanomed Medical Clinic </a>"
+folium.Marker(location=[43.665269,-79.387529], popup=sanomed_popup).add_to(my_map)
 
-clinics = {"sanomed":
-            {
-            "name": "Sanomed Medical Clinic", 
-            "picture": "https://sanomedclinic.ca/wp-content/uploads/2021/10/Pharmasave-SanoMed-Medical-Walk-in-Clinic-Toronto.jpg.webp",
-            "address": "1000 Bay St. Unit 2, Toronto, ON M5S 3A8",
-            "available_slots": {
-                                "2024-03-15": ["10:00 AM", "11:00 AM", "2:00 PM", "3:00 PM"],
-                                "2024-03-16": ["9:00 AM", "10:00 AM", "11:00 AM", "1:00 PM"],
-                                "2024-03-17": ["9:30 AM", "10:30 AM", "11:30 AM", "2:00 PM"],
-                                },   
-            "reviews": ["best clinic ever!!!", "jeff is helping build this"],
-            },
+hearthealth_popup = "<a href='http://127.0.0.1:5000/hearthealth/booking' target='_blank'> HeartHealth Medical </a>"
+folium.Marker(location=[43.6580818742268, -79.40446914492092], popup=hearthealth_popup).add_to(my_map)
 
-            "hearthealth":
-            {
-            "name": "HeartHealth Medical",
-            "picture": "https://lh3.googleusercontent.com/p/AF1QipMzpb9lDKTh4sUsIj-M3TYa3S5OwI0RDgw4iZ9p=s1360-w1360-h1020",
-            "address": "360 College St Unit 103, Toronto, ON M5T 1S6",
-            "available_slots": {
-                                "2024-03-15": ["9:00 AM", "10:00 AM", "1:00 PM", "2:00 PM"],
-                                "2024-03-16": ["10:00 AM", "11:00 AM", "2:00 PM", "3:00 PM"],
-                                "2024-03-17": ["9:30 AM", "10:30 AM", "11:30 AM", "1:00 PM"],
-                                },
-            "reviews": ["worst clinic ever!!!", "nivedha is doing this herself"],
-            },
-            "clinic1":
-            {
-            "name": "Sanomed Medical Clinic", 
-            "picture": "https://sanomedclinic.ca/wp-content/uploads/2021/10/Pharmasave-SanoMed-Medical-Walk-in-Clinic-Toronto.jpg.webp",
-            "address": "1000 Bay St. Unit 2, Toronto, ON M5S 3A8",
-            "available_slots": {
-                                "2024-03-15": ["10:00 AM", "11:00 AM", "2:00 PM", "3:00 PM"],
-                                "2024-03-16": ["9:00 AM", "10:00 AM", "11:00 AM", "1:00 PM"],
-                                "2024-03-17": ["9:30 AM", "10:30 AM", "11:30 AM", "2:00 PM"],
-                                },   
-            "reviews": ["best clinic ever!!!", "jeff is helping build this"],
-            },
-            "clinic2":
-            {
-            "name": "Sanomed Medical Clinic", 
-            "picture": "https://sanomedclinic.ca/wp-content/uploads/2021/10/Pharmasave-SanoMed-Medical-Walk-in-Clinic-Toronto.jpg.webp",
-            "address": "1000 Bay St. Unit 2, Toronto, ON M5S 3A8",
-            "available_slots": {
-                                "2024-03-15": ["10:00 AM", "11:00 AM", "2:00 PM", "3:00 PM"],
-                                "2024-03-16": ["9:00 AM", "10:00 AM", "11:00 AM", "1:00 PM"],
-                                "2024-03-17": ["9:30 AM", "10:30 AM", "11:30 AM", "2:00 PM"],
-                                },   
-            "reviews": ["best clinic ever!!!", "jeff is helping build this"],
-            },
-            "climic3":
-            {
-            "name": "Sanomed Medical Clinic", 
-            "picture": "https://sanomedclinic.ca/wp-content/uploads/2021/10/Pharmasave-SanoMed-Medical-Walk-in-Clinic-Toronto.jpg.webp",
-            "address": "1000 Bay St. Unit 2, Toronto, ON M5S 3A8",
-            "available_slots": {
-                                "2024-03-15": ["10:00 AM", "11:00 AM", "2:00 PM", "3:00 PM"],
-                                "2024-03-16": ["9:00 AM", "10:00 AM", "11:00 AM", "1:00 PM"],
-                                "2024-03-17": ["9:30 AM", "10:30 AM", "11:30 AM", "2:00 PM"],
-                                },   
-            "reviews": ["best clinic ever!!!", "jeff is helping build this"],
-            },
-            "clinic4":
-            {
-            "name": "Sanomed Medical Clinic", 
-            "picture": "https://sanomedclinic.ca/wp-content/uploads/2021/10/Pharmasave-SanoMed-Medical-Walk-in-Clinic-Toronto.jpg.webp",
-            "address": "1000 Bay St. Unit 2, Toronto, ON M5S 3A8",
-            "available_slots": {
-                                "2024-03-15": ["10:00 AM", "11:00 AM", "2:00 PM", "3:00 PM"],
-                                "2024-03-16": ["9:00 AM", "10:00 AM", "11:00 AM", "1:00 PM"],
-                                "2024-03-17": ["9:30 AM", "10:30 AM", "11:30 AM", "2:00 PM"],
-                                },   
-            "reviews": ["best clinic ever!!!", "jeff is helping build this"],
-            },
-            "clinic5":
-            {
-            "name": "Sanomed Medical Clinic", 
-            "picture": "https://sanomedclinic.ca/wp-content/uploads/2021/10/Pharmasave-SanoMed-Medical-Walk-in-Clinic-Toronto.jpg.webp",
-            "address": "1000 Bay St. Unit 2, Toronto, ON M5S 3A8",
-            "available_slots": {
-                                "2024-03-15": ["10:00 AM", "11:00 AM", "2:00 PM", "3:00 PM"],
-                                "2024-03-16": ["9:00 AM", "10:00 AM", "11:00 AM", "1:00 PM"],
-                                "2024-03-17": ["9:30 AM", "10:30 AM", "11:30 AM", "2:00 PM"],
-                                },   
-            "reviews": ["best clinic ever!!!", "jeff is helping build this"],
-            },
-            "clinic6":
-            {
-            "name": "Sanomed Medical Clinic", 
-            "picture": "https://sanomedclinic.ca/wp-content/uploads/2021/10/Pharmasave-SanoMed-Medical-Walk-in-Clinic-Toronto.jpg.webp",
-            "address": "1000 Bay St. Unit 2, Toronto, ON M5S 3A8",
-            "available_slots": {
-                                "2024-03-15": ["10:00 AM", "11:00 AM", "2:00 PM", "3:00 PM"],
-                                "2024-03-16": ["9:00 AM", "10:00 AM", "11:00 AM", "1:00 PM"],
-                                "2024-03-17": ["9:30 AM", "10:30 AM", "11:30 AM", "2:00 PM"],
-                                },   
-            "reviews": ["best clinic ever!!!", "jeff is helping build this"],
-            },
-            "clinic7":
-            {
-            "name": "Sanomed Medical Clinic", 
-            "picture": "https://sanomedclinic.ca/wp-content/uploads/2021/10/Pharmasave-SanoMed-Medical-Walk-in-Clinic-Toronto.jpg.webp",
-            "address": "1000 Bay St. Unit 2, Toronto, ON M5S 3A8",
-            "available_slots": {
-                                "2024-03-15": ["10:00 AM", "11:00 AM", "2:00 PM", "3:00 PM"],
-                                "2024-03-16": ["9:00 AM", "10:00 AM", "11:00 AM", "1:00 PM"],
-                                "2024-03-17": ["9:30 AM", "10:30 AM", "11:30 AM", "2:00 PM"],
-                                },   
-            "reviews": ["best clinic ever!!!", "jeff is helping build this"],
-            },
-            "clinic8":
-            {
-            "name": "Sanomed Medical Clinic", 
-            "picture": "https://sanomedclinic.ca/wp-content/uploads/2021/10/Pharmasave-SanoMed-Medical-Walk-in-Clinic-Toronto.jpg.webp",
-            "address": "1000 Bay St. Unit 2, Toronto, ON M5S 3A8",
-            "available_slots": {
-                                "2024-03-15": ["10:00 AM", "11:00 AM", "2:00 PM", "3:00 PM"],
-                                "2024-03-16": ["9:00 AM", "10:00 AM", "11:00 AM", "1:00 PM"],
-                                "2024-03-17": ["9:30 AM", "10:30 AM", "11:30 AM", "2:00 PM"],
-                                },   
-            "reviews": ["best clinic ever!!!", "jeff is helping build this"],
-            },
-           }
+familywalkin_popup = "<a href='http://127.0.0.1:5000/familywalkin/booking' target='_blank'> Family Doctors & Walk-In Clinic </a>"
+folium.Marker(location=[43.66069937508352, -79.3861229769542], popup=familywalkin_popup).add_to(my_map)
+
+familymedicine_popup = "<a href='http://127.0.0.1:5000/familymedicine/booking' target='_blank'> Family Medicine Clinic </a>"
+folium.Marker(location=[43.65588280429575, -79.38671963277586], popup=familymedicine_popup).add_to(my_map)
+my_map.save('static/map.html')
 
 app = Flask(__name__)
 app.secret_key = 'secret_key'
@@ -180,10 +70,11 @@ def register():
 
     return render_template('register.html')
 
-@app.route('/home')
+@app.route('/home',methods=['GET', 'POST'])
 def home():
     # Collect all appointments from all clinics
     all_appointments = []
+    matching_clinics = []
 
     for clinic_name, clinic_info in clinics.items():
         available_slots = clinic_info.get('available_slots', {})
@@ -213,13 +104,20 @@ def home():
     if time_filter in ['morning', 'afternoon', 'evening']:
         all_appointments = [appointment for appointment in all_appointments if get_time_preference(appointment['time']) == time_filter]
 
-    return render_template('homepage.html', appointments=all_appointments, clinics=clinics, clinics_to_show=dict(list(clinics.items())[:4]))
+    search_word = request.form.get('search_word', '').lower() if request.method == 'POST' else ''
+    if search_word:  # Only search if there's a word input by the user
+        for clinic_name, clinic_info in clinics.items():
+            for review in clinic_info['reviews']:
+                if search_word.lower() in review.lower():
+                    matching_clinics.append(clinic_info['name'])
+
+    return render_template('homepage.html', appointments=all_appointments, clinics=clinics, clinics_to_show=dict(list(clinics.items())[:4]), matching_clinics=matching_clinics, search_word=search_word)
 
 def get_time_preference(time):
     hour = time.hour
     if hour < 12:
         return 'morning'
-    elif hour < 17:
+    elif hour < 16:
         return 'afternoon'
     else:
         return 'evening'
@@ -258,6 +156,7 @@ def booking_confirmation():
 
     # Fetch user details from the users dictionary using the username stored in the session
     username = session['username']
+    
     user_details = users[username]
 
     # Fetch clinic name, date, and time from the form data
@@ -273,6 +172,18 @@ def booking_confirmation():
             break
     
     clinic_info = clinics[clinic_key]
+
+
+    # Send the booking confirmation here
+    client = Client(account_sid, auth_token)
+
+    message = client.messages.create(
+    to=user_details.get('phone_number'),
+    from_="+15714188985",
+    body= f'Hi {user_details["name"]}, \nThis is to notify you that your appointment at {clinic_info["name"]} at {time} on {date} has been successfully booked! \
+            \nYou will be sent a reminder 24 hours before your appointment! \
+            \nThank you for booking through HealthLink! \
+            \nHave a great day!')
     # Render the booking confirmation template with user and clinic details
     return render_template("booking_confirmation.html", 
                            username=username,
@@ -282,45 +193,6 @@ def booking_confirmation():
                            address=clinic_info['address'],
                            date=date,
                            time=time)
-
-# GOOGLE_PLACES_API_KEY = "YOUR_GOOGLE_PLACES_API_KEY"
-# MAX_HOSPITALS = 10
-# def get_hospitals(location="University of Toronto"):
-#     url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
-#     params = {
-#         "query": f"hospitals near {location}",
-#         "key": GOOGLE_PLACES_API_KEY
-#     }
-#     response = requests.get(url, params=params)
-#     data = response.json()
-#     hospitals = {}
-#     count = 0
-#     if 'results' in data:
-#         for i, result in enumerate(data['results'], start=1):
-#             if count >= MAX_HOSPITALS:
-#                 break
-#             hospital = {}
-#             hospital['name'] = result['name']
-#             hospital['location'] = result['formatted_address']
-#             hospital['rating'] = result.get('rating', 'N/A')
-#             hospital['phone'] = result.get('formatted_phone_number', 'N/A')
-#             hospital['website'] = result.get('website', 'N/A')
-#             hospital['picture'] = result['icon']
-#             hospitals[f'hospital_{i}'] = hospital
-#             count += 1
-#             print(f"Name: {hospital['name']}")
-#             print(f"Location: {hospital['location']}")
-#             print(f"Rating: {hospital['rating']}")
-#             print(f"Phone: {hospital['phone']}")
-#             print(f"Website: {hospital['website']}")
-#             print(f"Picture: {hospital['picture']}")
-#             print("=" * 20)  # Separator
-#     return hospitals
-
-# @app.route('/ab')
-# def scraping():
-#     hospitals = get_hospitals()
-#     return hospitals
 
 if __name__ == '__main__':
     app.run(debug=True)
